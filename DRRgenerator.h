@@ -8,16 +8,11 @@
 #include <ctime>
 #include <opencv2/core/core.hpp>
 #include <omp.h>
-#include <algorithm>
 #include <math.h>
 #include <opencv2/opencv.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/calib3d/calib3d.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
 #include <Eigen/Core>
 #include <Eigen/Dense>
+
 #define _USE_MATH_DEFINES
 
 using namespace Eigen;
@@ -40,6 +35,7 @@ public:
     T default_value;
     T* data ;
     float * offset;
+    int typevalue;
 
     CTvolume(){}
 
@@ -49,6 +45,7 @@ public:
         std::fill_n(data, sx * sy * sz, default_v);
         offset= new float [3];
         std::fill_n(offset, 3, 0);
+        typevalue=1;
     }
 
     T& at(int x, int y, int z) {return data[x + size_x * y + size_x * size_y * z];}
@@ -60,7 +57,7 @@ public:
 class DRRgenerator
 {
  private:
-    CTvolume<double> CTvol;
+    CTvolume<short> CTvol;
     CameraDataGPU cam;
     void split(const string &s,  vector<string> &elems);
 
@@ -69,9 +66,11 @@ public:
     void load_CT(std::string filename_raw,std::string info);
     Eigen::Isometry3f  cv2eigeniso(cv::Mat transfo);
     void  raytracegpu( cv::Mat &color);
-
+    float  trilinear_interpolation(short *a,cv::Point3f  pt);
     float attenuation_lookup_hu (float pix_density);
     float attenuation_lookup (float pix_density);
+    void findentryandexitpoint(Vector3f startpoint, Vector3f ray, double &texitpoint, double &tentrypoint);
+
 };
 
 #endif // DRRGENERATOR_H

@@ -7,9 +7,13 @@ int main()
 {
     DRRgenerator drrgene;
 
-    std::string CT_folder="/home/roberto/CampVis/LWS_Phantom/29595_003_1_25_20140221/";
-    std::string filenameCT=CT_folder+"LWS_Phantom.raw";
-    std::string info_filename=CT_folder+"LWS_Phantom.mhd";
+    // we only load mhd file
+
+    std::string CT_folder="_folder_name_here_";
+    std::string filenameCT=CT_folder+"_filenamehere_.raw";
+    std::string info_filename=CT_folder+"_filenamehere_.mhd";
+
+
     const auto startct = chrono::system_clock::now();
     drrgene.load_CT(filenameCT,info_filename);
     const auto stopct = chrono::system_clock::now();
