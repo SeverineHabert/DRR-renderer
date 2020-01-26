@@ -12,6 +12,7 @@ if (OPENMP_FOUND)
 endif()
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 find_package( Eigen3 REQUIRED )
 include_directories( ${EIGEN3_INCLUDE_DIR} )
@@ -23,6 +24,6 @@ message(STATUS ${Eigen3_FOUND})
 message(STATUS ${EIGEN3_INCLUDE_DIR})
 
 add_executable(${PROJECT_NAME} main.cpp DRRgenerator.cpp )
-target_link_libraries( ${PROJECT_NAME}   ${OpenCV_LIBS}  )
+target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS})
 
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${PROJECT_NAME})
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
