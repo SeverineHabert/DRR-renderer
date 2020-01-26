@@ -12,8 +12,16 @@ if (OPENMP_FOUND)
 endif()
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
+find_package( Eigen3 REQUIRED )
 include_directories( ${EIGEN3_INCLUDE_DIR} )
+
+message(STATUS "===================")
+message(STATUS ${OpenCV_FOUND})
+message(STATUS ${OpenCV_INCLUDE_DIRS})
+message(STATUS ${Eigen3_FOUND})
+message(STATUS ${EIGEN3_INCLUDE_DIR})
+
 add_executable(${PROJECT_NAME} main.cpp DRRgenerator.cpp )
 target_link_libraries( ${PROJECT_NAME}   ${OpenCV_LIBS}  )
 
-
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ok)
