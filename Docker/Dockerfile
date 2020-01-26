@@ -67,8 +67,9 @@ RUN cd /opt && wget https://codeload.github.com/opencv/opencv/zip/$OPENCV -O ope
 && ldconfig
 #&& rm -rf /opt/* && 
 
+ENV CMAKE_MODULE_PATH /opt/eigen-eigen-b9cd8366d4e8/cmake/FindEigen3.cmake
 
-ENV EIGEN3_INCLUDE_DIR /usr/include/eigen3
+#ENV EIGEN3_INCLUDE_DIR /usr/include/eigen3
 
 # DRR repos
 # search term: reconstructed radiograph site:github.com
@@ -79,4 +80,4 @@ ENV EIGEN3_INCLUDE_DIR /usr/include/eigen3
 #/usr/local/lib
 # docker run -it -v /media/external/scisoft/clones/DRR-renderer:/mycode drr /bin/bash
 # cd /mycode
-# python setup.build
+# rm -rf _skbuild;python setup.py build
