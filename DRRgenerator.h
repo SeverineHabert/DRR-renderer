@@ -63,10 +63,17 @@ class DRRgenerator
 
 public:
     DRRgenerator();
+    float translation_x;
+    float translation_y;
+    float translation_z;
+    int rows;
+    int cols;
+    int min_hu;
+    void init();
     void load_CT(std::string filename_raw,std::string info);
-    Eigen::Isometry3f  cv2eigeniso(cv::Mat transfo);
-    void  raytracegpu( cv::Mat &color);
-    float  trilinear_interpolation(short *a,cv::Point3f  pt);
+    Eigen::Isometry3f cv2eigeniso(cv::Mat transfo);
+    void raytracegpu( cv::Mat &color);
+    float trilinear_interpolation(short *a,cv::Point3f  pt);
     float attenuation_lookup_hu (float pix_density);
     float attenuation_lookup (float pix_density);
     void findentryandexitpoint(Vector3f startpoint, Vector3f ray, double &texitpoint, double &tentrypoint);

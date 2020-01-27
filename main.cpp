@@ -8,17 +8,29 @@ int main( int argc, char** argv )
     char* inputMhdFile = argv[1];
     char* inputRawFile = argv[2];
     char* outputCVFile = argv[3];
-
+    char* translation_x = argv[4]; //0
+    char* translation_y = argv[5]; //0
+    char* translation_z = argv[6]; //0
+    char* rows = argv[7]; //512
+    char* cols = argv[8]; //512
+    char* min_hu = argv[9]; //-1000
+    
     DRRgenerator drrgene;
 
     // we only load mhd file
     
-    //std::string CT_folder="_folder_name_here_";
     std::string filenameCT=inputRawFile;
     std::string info_filename=inputMhdFile;
 
+    drrgene.translation_x = atof(translation_x);
+    drrgene.translation_y = atof(translation_y);
+    drrgene.translation_z = atof(translation_z);
+    drrgene.rows = atoi(rows);
+    drrgene.cols = atoi(cols);
+    drrgene.min_hu = atoi(min_hu);
 
     const auto startct = chrono::system_clock::now();
+    drrgene.init();
     drrgene.load_CT(filenameCT,info_filename);
     const auto stopct = chrono::system_clock::now();
     const auto duratct =  chrono::duration_cast<chrono::milliseconds>(stopct - startct).count();
@@ -32,8 +44,7 @@ int main( int argc, char** argv )
     std::cout<<"DRR created in "<< durat <<" ms"<<std::endl;
 
     cv::imwrite(outputCVFile,color);
-    //cv::imshow("DRR", color);
-    //cv::waitKey(0);
+
     return 0;
 }
 

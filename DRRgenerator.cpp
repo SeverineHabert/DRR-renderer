@@ -11,14 +11,18 @@
 
 DRRgenerator::DRRgenerator()
 {
+    std::cout<<"constructor"<<std::endl;
+}
+void DRRgenerator::init()
+{
     cam=CameraDataGPU();
 
     // translation compared to the center of CT
     cv::Mat translation=cv::Mat::zeros(3,1,CV_64F);
-    translation.at<double>(0)=0;
-    translation.at<double>(1)=0;
-    translation.at<double>(2)=0;
-
+    translation.at<double>(0)=this->translation_x;
+    translation.at<double>(1)=this->translation_y;
+    translation.at<double>(2)=this->translation_z;
+    
     cv::Mat transfotranslation=cv::Mat::eye(4,4,CV_64F);
     for(int i=0;i<3;i++)
         transfotranslation.at<double>(i,3)=translation.at<double>(i);
@@ -71,9 +75,10 @@ http://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/water.html
 float DRRgenerator::attenuation_lookup_hu (float pix_density)
 {
 
-    double min_hu = -1000.0; // this is a threshold on the density, if you want to consider less dense matter in the DRR, decrease this value to -1000.
-    if (CTvol.typevalue==0)
-        min_hu = 0;
+    //double min_hu = -1000.0; // this is a threshold on the density, if you want to consider less dense matter in the DRR, decrease this value to -1000.
+    //if (CTvol.typevalue==0)
+    //    min_hu = 0;
+    double min_hu = this->min_hu;
     double mu_h2o = 0.022;
     if (pix_density <= min_hu) {
         return 0.0;
@@ -192,8 +197,8 @@ void  DRRgenerator::raytracegpu(cv::Mat &color)
 {
 
     // size of the final DRR (transposed)
-    int rows=512;
-    int cols=512;
+    int rows=this->rows;
+    int cols=this->cols;
 
     color =cv::Mat::zeros(rows, cols,CV_8UC1);
     cv::Mat color_raw =cv::Mat::zeros(rows, cols,CV_64F);
