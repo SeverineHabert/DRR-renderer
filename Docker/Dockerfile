@@ -1,3 +1,4 @@
+# ref. https://hub.docker.com/r/youyu/ubuntu/dockerfile 
 FROM ubuntu:16.04
 MAINTAINER Yu You <youyu.youyu@gmail.com>
 
@@ -57,18 +58,20 @@ RUN cd /opt && wget https://codeload.github.com/opencv/opencv/zip/$OPENCV -O ope
 && make -j4 && make install \
 && ldconfig
 
-#ENV CMAKE_MODULE_PATH /opt/eigen-eigen-b9cd8366d4e8/cmake/FindEigen3.cmake
-
-#ENV EIGEN3_INCLUDE_DIR /usr/include/eigen3
 
 # DRR repos
 # search term: reconstructed radiograph site:github.com
 # https://github.com/PayamZandiyeh/DRR-Studies
+#
+#
 
 # docker build -t drr .
 # docker run -it -v /media/external/scisoft/clones/DRR-renderer:/mycode drr /bin/bash
 # cd /mycode
+##
 # rm -rf _skbuild;python setup.py build
+## 
 # cmake .
 # make -j6 install
-# bin/DRRgenerator ../lola11-55.mhd ../lola11-55.raw out.png
+##
+# DRRgenerator ../lola11-55.mhd ../lola11-55.raw out.png

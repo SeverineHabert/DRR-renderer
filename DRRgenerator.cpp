@@ -15,17 +15,17 @@ DRRgenerator::DRRgenerator()
 
     // translation compared to the center of CT
     cv::Mat translation=cv::Mat::zeros(3,1,CV_64F);
-    //    translation.at<double>(0)=0;
-    //    translation.at<double>(1)=0;
-    //    translation.at<double>(2)=0;
+    translation.at<double>(0)=0;
+    translation.at<double>(1)=0;
+    translation.at<double>(2)=0;
 
     cv::Mat transfotranslation=cv::Mat::eye(4,4,CV_64F);
     for(int i=0;i<3;i++)
         transfotranslation.at<double>(i,3)=translation.at<double>(i);
 
-    float roll=-M_PI/2; // rotation around x-axis
-    float pitch=M_PI/2; // rotation around y-axis
-    float yaw=-M_PI/2; // rotation around z-axis
+    float roll=-3*M_PI/2; // rotation around x-axis
+    float pitch=0;//M_PI/2; // rotation around y-axis
+    float yaw=0;//-M_PI;//-M_PI/2; // rotation around z-axis
 
     cv::Mat rotz=cv::Mat::eye(4,4,CV_64F);
     cv::Mat roty=cv::Mat::eye(4,4,CV_64F);
@@ -50,16 +50,16 @@ DRRgenerator::DRRgenerator()
 
     // distance of the camera from the center of the CT coordinate system (after translation)
     cv::Mat transfo2=cv::Mat::eye(4,4,CV_64F);
-    transfo2.at<double>(2,3)=-1000;
+    transfo2.at<double>(2,3)=-1300;
 
     cam.extrinsics_video=transfotranslation*rot*transfo2;
 
     // intrinsic parameters of the X-ray source
     cam.intrinsics_video=cv::Mat::eye(3,3,CV_64F);
-    cam.intrinsics_video.at<double>(0,0)=2200;
-    cam.intrinsics_video.at<double>(1,1)=2200;
-    cam.intrinsics_video.at<double>(0,2)=320;
-    cam.intrinsics_video.at<double>(1,2)=240;
+    cam.intrinsics_video.at<double>(0,0)=2000;
+    cam.intrinsics_video.at<double>(1,1)=2000;
+    cam.intrinsics_video.at<double>(0,2)=256;
+    cam.intrinsics_video.at<double>(1,2)=256;
 }
 
 /* normalization of the Hounsfield values ( taken from Plastimatch project of Harvard University)
@@ -71,9 +71,9 @@ http://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/water.html
 float DRRgenerator::attenuation_lookup_hu (float pix_density)
 {
 
-    double min_hu = -800.0; // this is a threshold on the density, if you want to consider less dense matter in the DRR, decrease this value to -1000.
+    double min_hu = -1000.0; // this is a threshold on the density, if you want to consider less dense matter in the DRR, decrease this value to -1000.
     if (CTvol.typevalue==0)
-        min_hu = 100;
+        min_hu = 0;
     double mu_h2o = 0.022;
     if (pix_density <= min_hu) {
         return 0.0;
@@ -192,8 +192,8 @@ void  DRRgenerator::raytracegpu(cv::Mat &color)
 {
 
     // size of the final DRR (transposed)
-    int rows=640;
-    int cols=480;
+    int rows=512;
+    int cols=512;
 
     color =cv::Mat::zeros(rows, cols,CV_8UC1);
     cv::Mat color_raw =cv::Mat::zeros(rows, cols,CV_64F);
@@ -276,6 +276,7 @@ void  DRRgenerator::raytracegpu(cv::Mat &color)
 
             }
 
+
         }
     // the value inside color_raw are actually very small, so we scale it in between 0 and 255
     double min;
@@ -286,10 +287,10 @@ void  DRRgenerator::raytracegpu(cv::Mat &color)
     float scale = 255 / (max-min);
     color_raw.convertTo(color,CV_8UC1, scale, -min*scale);
     // image inversion to get dark values for dense structures
-    bitwise_not ( color, color );
+    //bitwise_not ( color, color );
 
     // Rotate images by 90 degrees because our y/z in 3D is flipped
-    //cv::transpose(color,color);
+    cv::transpose(color,color);
 
 }
 
