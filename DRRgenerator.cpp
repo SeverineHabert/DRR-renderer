@@ -289,7 +289,7 @@ void  DRRgenerator::raytracegpu(cv::Mat &color)
     bitwise_not ( color, color );
 
     // Rotate images by 90 degrees because our y/z in 3D is flipped
-    cv::transpose(color,color);
+    //cv::transpose(color,color);
 
 }
 

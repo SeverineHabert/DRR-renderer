@@ -65,9 +65,10 @@ RUN cd /opt && wget https://codeload.github.com/opencv/opencv/zip/$OPENCV -O ope
 # search term: reconstructed radiograph site:github.com
 # https://github.com/PayamZandiyeh/DRR-Studies
 
-#docker build -t drr .
-#docker run -it drr /bin/bash
-#/usr/local/lib
+# docker build -t drr .
 # docker run -it -v /media/external/scisoft/clones/DRR-renderer:/mycode drr /bin/bash
 # cd /mycode
 # rm -rf _skbuild;python setup.py build
+# cmake .
+# make -j6 install
+# bin/DRRgenerator ../lola11-55.mhd ../lola11-55.raw out.png
