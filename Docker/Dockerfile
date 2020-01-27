@@ -4,11 +4,6 @@ MAINTAINER Yu You <youyu.youyu@gmail.com>
 # old one is 2.4.11
 ENV OPENCV 3.1.0
 
-# Enable the Ubuntu multiverse repository.
-#RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty multiverse" >> /etc/apt/source.list
-#RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty multiverse">> /etc/apt/source.list
-#RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-updates multiverse" >> /etc/apt/source.list
-#RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-updates multiverse" >> /etc/apt/source.list
 # Initial update and install of dependency that can add apt-repos
 RUN apt-get -y update && apt-get install -y software-properties-common python-software-properties
 
@@ -55,19 +50,14 @@ RUN cd /opt && wget http://bitbucket.org/eigen/eigen/get/3.2.10.tar.gz -O eigen3
 && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RELEASE .. \
 && make install 
 
-#RUN cd /opt && git clone https://github.com/stevenlovegrove/Pangolin.git \
-#&& cd Pangolin && mkdir build && cd build && cmake  .. \
-#&& make -j4 && make install 
-
 RUN cd /opt && wget https://codeload.github.com/opencv/opencv/zip/$OPENCV -O opencv.zip \
 && unzip opencv.zip \
 && cd opencv-$OPENCV && mkdir build && cd build \
 && cmake -D CMAKE_BUILD_TYPE=RELEASE -D WITH_CUDA=ON -D WITH_OPENGL=ON .. \
 && make -j4 && make install \
 && ldconfig
-#&& rm -rf /opt/* && 
 
-ENV CMAKE_MODULE_PATH /opt/eigen-eigen-b9cd8366d4e8/cmake/FindEigen3.cmake
+#ENV CMAKE_MODULE_PATH /opt/eigen-eigen-b9cd8366d4e8/cmake/FindEigen3.cmake
 
 #ENV EIGEN3_INCLUDE_DIR /usr/include/eigen3
 
