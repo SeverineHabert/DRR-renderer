@@ -1,4 +1,4 @@
-Simple code to generate Digitally Reconstructed Radiographs from MetaImage (.mhd) CT data
+### Simple code to generate Digitally Reconstructed Radiographs from MetaImage (.mhd) CT data
 
 The code generates DRR images in a transparent and simple manner, the user can tune every parameter, such as view point angles, distance to CT, intrinsics of DRR view, step of raytracing, ...
 The DRR generation takes 2 seconds on a Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz 8 cores on Ubuntu 14.10.
