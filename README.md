@@ -10,10 +10,12 @@ The .mhd standard is not fixed, therefore it might happen that the CT header use
 
 * setup developer environment via docker
 
+
     cd Docker
     docker build -t drr .
 
 * build DRRgenerator within docker
+
 
     docker run -it -v $MYCODE:/mycode drr /bin/bash
     cd /mycode
@@ -22,6 +24,7 @@ The .mhd standard is not fixed, therefore it might happen that the CT header use
 ### Build instructions
 
 * test out the executable
+
 
     DRRgenerator ../lola11-55.mhd ../lola11-55.raw  out.png 0 0 0 512 512 -1000
 
