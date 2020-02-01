@@ -6,6 +6,10 @@ The .mhd standard is not fixed, therefore it might happen that the CT header use
 
 [![DOI](https://zenodo.org/badge/88970535.svg)](https://zenodo.org/badge/latestdoi/88970535)
 
+### Sample Image
+
+![sample chest DRR](/sample/sample0.png)
+
 ### Build instructions
 
 * setup developer environment via docker
