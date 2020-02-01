@@ -79,6 +79,10 @@ void DRRgenerator::init()
  * According to NIST, the mass attenuation coefficient of H2O at 50 keV
 is 0.22 cm^2 per gram.  Thus, we scale by 0.022 per mm
 http://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/water.html
+
+HU = ([u-uw]/uw) * 1000, where u and uw are the linear attenuation coefficient of voxel and water, respectively.
+u = (HU/1000)*uw + uw
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6689205/
  */
 float DRRgenerator::attenuation_lookup_hu (float pix_density)
 {
