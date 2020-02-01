@@ -1,3 +1,5 @@
+*** NOT WORKING ***
+
 import sys
 
 from skbuild import setup
@@ -14,9 +16,9 @@ setup(
 
 # copy built executable to bin folder.
 
-import shutil,os
-src_file = '_skbuild/linux-x86_64-3.7/cmake-install/bin/DRRgenerator'
-tgt_file = 'bin/DRRgenerator'
-if os.path.exists(src_file):
-    os.makedirs('bin',exist_ok=True)
-    shutil.copy(src_file,tgt_file)
+# import shutil,os
+# src_file = '_skbuild/linux-x86_64-3.7/cmake-install/bin/DRRgenerator'
+# tgt_file = 'bin/DRRgenerator'
+# if os.path.exists(src_file):
+#     os.makedirs('bin',exist_ok=True)
+#     shutil.copy(src_file,tgt_file)

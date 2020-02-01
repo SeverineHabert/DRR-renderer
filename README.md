@@ -14,14 +14,17 @@ The .mhd standard is not fixed, therefore it might happen that the CT header use
     docker build -t drr .
 ```
 * build DRRgenerator within docker
-    ```
+```
     docker run -it -v $MYCODE:/mycode drr /bin/bash
     cd /mycode
     cmake .;make install;
-    ```
+```
 ### Build instructions
 
-* test out the executable
+* generate drr within docker given mhd,raw input path and output png.
+  and additional parameters.
 ```
-    DRRgenerator ../lola11-55.mhd ../lola11-55.raw  out.png 0 0 0 512 512 -1000
+    DRRgenerator lola11-55.mhd lola11-55.raw out.png 0 0 0 -90 0 0 512 512 -1000 -1100 2048 2048 256 256
 ```
+
+### 

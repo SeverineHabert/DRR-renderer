@@ -27,9 +27,9 @@ void DRRgenerator::init()
     for(int i=0;i<3;i++)
         transfotranslation.at<double>(i,3)=translation.at<double>(i);
 
-    float roll=-3*M_PI/2; // rotation around x-axis
-    float pitch=0;//M_PI/2; // rotation around y-axis
-    float yaw=0;//-M_PI;//-M_PI/2; // rotation around z-axis
+    float roll=this->roll*M_PI/180;//-3*M_PI/2; // rotation around x-axis
+    float pitch=this->pitch*M_PI/180;//M_PI/2; // rotation around y-axis
+    float yaw=this->yaw*M_PI/180;//-M_PI;//-M_PI/2; // rotation around z-axis
 
     cv::Mat rotz=cv::Mat::eye(4,4,CV_64F);
     cv::Mat roty=cv::Mat::eye(4,4,CV_64F);
@@ -54,16 +54,24 @@ void DRRgenerator::init()
 
     // distance of the camera from the center of the CT coordinate system (after translation)
     cv::Mat transfo2=cv::Mat::eye(4,4,CV_64F);
-    transfo2.at<double>(2,3)=-1300;
+    //transfo2.at<double>(2,3)=-1300;
+    transfo2.at<double>(2,3)=this->camera_pos;
 
     cam.extrinsics_video=transfotranslation*rot*transfo2;
 
     // intrinsic parameters of the X-ray source
     cam.intrinsics_video=cv::Mat::eye(3,3,CV_64F);
+    /*
     cam.intrinsics_video.at<double>(0,0)=2000;
     cam.intrinsics_video.at<double>(1,1)=2000;
     cam.intrinsics_video.at<double>(0,2)=256;
     cam.intrinsics_video.at<double>(1,2)=256;
+    */
+    cam.intrinsics_video.at<double>(0,0)=this->video00;
+    cam.intrinsics_video.at<double>(1,1)=this->video11;
+    cam.intrinsics_video.at<double>(0,2)=this->video02;
+    cam.intrinsics_video.at<double>(1,2)=this->video12;
+
 }
 
 /* normalization of the Hounsfield values ( taken from Plastimatch project of Harvard University)
@@ -78,9 +86,9 @@ float DRRgenerator::attenuation_lookup_hu (float pix_density)
     //double min_hu = -1000.0; // this is a threshold on the density, if you want to consider less dense matter in the DRR, decrease this value to -1000.
     //if (CTvol.typevalue==0)
     //    min_hu = 0;
-    double min_hu = this->min_hu;
+
     double mu_h2o = 0.022;
-    if (pix_density <= min_hu) {
+    if (pix_density <= this->min_hu) {
         return 0.0;
     } else {
         return (pix_density/1000.0) * mu_h2o + mu_h2o;
@@ -327,15 +335,16 @@ float  DRRgenerator::trilinear_interpolation(short *a,cv::Point3f  pt){
     cv::Point3i p110=cv::Point3i(p000.x+1,p000.y+1,p000.z);
     cv::Point3i p010=cv::Point3i(p000.x,p000.y+1,p000.z);
 
-
-    float u000= attenuation_lookup(a[p000.x + dx*p000.y + dx*dy*p000.z]-1024)   ;
-    float u100= attenuation_lookup(a[p100.x + dx*p100.y + dx*dy*p100.z]-1024) ;
-    float u010= attenuation_lookup(a[p010.x + dx*p010.y + dx*dy*p010.z]-1024) ;
-    float u101= attenuation_lookup(a[p101.x + dx*p101.y + dx*dy*p101.z]-1024) ;
-    float u001= attenuation_lookup(a[p001.x + dx*p001.y + dx*dy*p001.z]-1024) ;
-    float u110=attenuation_lookup( a[p110.x + dx*p110.y + dx*dy*p110.z]-1024) ;
-    float u011=attenuation_lookup( a[p011.x + dx*p011.y + dx*dy*p011.z]-1024) ;
-    float u111= attenuation_lookup(a[p111.x + dx*p111.y + dx*dy*p111.z]-1024) ;
+    //float offset = -1024;
+    float offset = 0;
+    float u000= attenuation_lookup(a[p000.x + dx*p000.y + dx*dy*p000.z]+offset) ;
+    float u100= attenuation_lookup(a[p100.x + dx*p100.y + dx*dy*p100.z]+offset) ;
+    float u010= attenuation_lookup(a[p010.x + dx*p010.y + dx*dy*p010.z]+offset) ;
+    float u101= attenuation_lookup(a[p101.x + dx*p101.y + dx*dy*p101.z]+offset) ;
+    float u001= attenuation_lookup(a[p001.x + dx*p001.y + dx*dy*p001.z]+offset) ;
+    float u110=attenuation_lookup( a[p110.x + dx*p110.y + dx*dy*p110.z]+offset) ;
+    float u011=attenuation_lookup( a[p011.x + dx*p011.y + dx*dy*p011.z]+offset) ;
+    float u111= attenuation_lookup(a[p111.x + dx*p111.y + dx*dy*p111.z]+offset) ;
 
     float xd=pt.x-p000.x;
     float yd=pt.y-p000.y;

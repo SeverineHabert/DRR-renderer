@@ -69,6 +69,15 @@ public:
     int rows;
     int cols;
     int min_hu;
+    int camera_pos;
+    int video00;
+    int video11;
+    int video02;
+    int video12;
+    float roll;
+    float pitch;
+    float yaw;
+    
     void init();
     void load_CT(std::string filename_raw,std::string info);
     Eigen::Isometry3f cv2eigeniso(cv::Mat transfo);
