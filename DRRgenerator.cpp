@@ -27,9 +27,9 @@ void DRRgenerator::init()
     for(int i=0;i<3;i++)
         transfotranslation.at<double>(i,3)=translation.at<double>(i);
 
-    float roll=this->roll*M_PI/180;//-3*M_PI/2; // rotation around x-axis
-    float pitch=this->pitch*M_PI/180;//M_PI/2; // rotation around y-axis
-    float yaw=this->yaw*M_PI/180;//-M_PI;//-M_PI/2; // rotation around z-axis
+    float roll=this->roll*M_PI/180; // rotation around x-axis
+    float pitch=this->pitch*M_PI/180; // rotation around y-axis
+    float yaw=this->yaw*M_PI/180; // rotation around z-axis
 
     cv::Mat rotz=cv::Mat::eye(4,4,CV_64F);
     cv::Mat roty=cv::Mat::eye(4,4,CV_64F);
@@ -54,19 +54,12 @@ void DRRgenerator::init()
 
     // distance of the camera from the center of the CT coordinate system (after translation)
     cv::Mat transfo2=cv::Mat::eye(4,4,CV_64F);
-    //transfo2.at<double>(2,3)=-1300;
     transfo2.at<double>(2,3)=this->camera_pos;
 
     cam.extrinsics_video=transfotranslation*rot*transfo2;
 
     // intrinsic parameters of the X-ray source
     cam.intrinsics_video=cv::Mat::eye(3,3,CV_64F);
-    /*
-    cam.intrinsics_video.at<double>(0,0)=2000;
-    cam.intrinsics_video.at<double>(1,1)=2000;
-    cam.intrinsics_video.at<double>(0,2)=256;
-    cam.intrinsics_video.at<double>(1,2)=256;
-    */
     cam.intrinsics_video.at<double>(0,0)=this->video00;
     cam.intrinsics_video.at<double>(1,1)=this->video11;
     cam.intrinsics_video.at<double>(0,2)=this->video02;
@@ -87,10 +80,11 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6689205/
 float DRRgenerator::attenuation_lookup_hu (float pix_density)
 {
 
-    //double min_hu = -1000.0; // this is a threshold on the density, if you want to consider less dense matter in the DRR, decrease this value to -1000.
-    //if (CTvol.typevalue==0)
-    //    min_hu = 0;
-
+    /*
+    double min_hu = -1000.0; // this is a threshold on the density, if you want to consider less dense matter in the DRR, decrease this value to -1000.
+    if (CTvol.typevalue==0)
+        min_hu = 0;
+    */
     double mu_h2o = 0.022;
     if (pix_density <= this->min_hu) {
         return 0.0;
@@ -304,7 +298,8 @@ void  DRRgenerator::raytracegpu(cv::Mat &color)
     float scale = 255 / (max-min);
     color_raw.convertTo(color,CV_8UC1, scale, -min*scale);
     // image inversion to get dark values for dense structures
-    //bitwise_not ( color, color );
+    if (this->inversion==1)
+        bitwise_not ( color, color );
 
     // Rotate images by 90 degrees because our y/z in 3D is flipped
     cv::transpose(color,color);

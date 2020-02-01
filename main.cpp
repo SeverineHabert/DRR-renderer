@@ -11,18 +11,18 @@ int main( int argc, char** argv )
     char* translation_x = argv[4]; //0
     char* translation_y = argv[5]; //0
     char* translation_z = argv[6]; //0
-    char* roll = argv[7]; //
-    char* pitch = argv[8]; //
-    char* yaw = argv[9]; //
-
-    char* rows = argv[10]; //512
-    char* cols = argv[11]; //512
-    char* min_hu = argv[12]; //-1000
-    char* camera_pos = argv[13]; //-1300
-    char* video00 = argv[14]; //2000
-    char* video11 = argv[15]; //2000
-    char* video02 = argv[16]; //256
-    char* video12 = argv[17]; //256
+    char* roll = argv[7]; // 90
+    char* pitch = argv[8]; // 0
+    char* yaw = argv[9]; // 0
+    char* inversion = argv[10]; // 0
+    char* rows = argv[11]; //512
+    char* cols = argv[12]; //512
+    char* min_hu = argv[13]; //-1000
+    char* camera_pos = argv[14]; //-1300
+    char* video00 = argv[15]; //2000
+    char* video11 = argv[16]; //2000
+    char* video02 = argv[17]; //256
+    char* video12 = argv[18]; //256
     
     DRRgenerator drrgene;
 
@@ -37,6 +37,7 @@ int main( int argc, char** argv )
     drrgene.roll = atof(roll);
     drrgene.pitch = atof(pitch);
     drrgene.yaw = atof(yaw);
+    drrgene.inversion = atoi(inversion);
     drrgene.rows = atoi(rows);
     drrgene.cols = atoi(cols);
     drrgene.min_hu = atoi(min_hu);

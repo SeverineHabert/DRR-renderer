@@ -63,9 +63,15 @@ class DRRgenerator
 
 public:
     DRRgenerator();
+    
     float translation_x;
     float translation_y;
     float translation_z;
+    float roll;
+    float pitch;
+    float yaw;
+
+    int inversion;
     int rows;
     int cols;
     int min_hu;
@@ -74,9 +80,6 @@ public:
     int video11;
     int video02;
     int video12;
-    float roll;
-    float pitch;
-    float yaw;
     
     void init();
     void load_CT(std::string filename_raw,std::string info);

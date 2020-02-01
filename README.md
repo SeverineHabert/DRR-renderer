@@ -27,5 +27,5 @@ The .mhd standard is not fixed, therefore it might happen that the CT header use
 
 * generate drr within docker given mhd and raw input paths, output png path, and additional parameters (see main.cpp for detail).
 ```
-    DRRgenerator lola11-55.mhd lola11-55.raw out.png 0 0 0 -90 0 0 512 512 -1000 -1100 2048 2048 256 256
+    DRRgenerator lola11-55.mhd lola11-55.raw out.png 0 0 0 -90 0 0 0 512 512 -1000 -1100 2048 2048 256 256
 ```
