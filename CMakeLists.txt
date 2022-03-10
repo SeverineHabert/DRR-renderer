@@ -15,7 +15,7 @@ find_package(OpenCV REQUIRED)
 
 add_executable(${PROJECT_NAME} main.cpp DRRgenerator.cpp )
 
-target_compile_options(DRRgeberatir PUBLIC -std=c++11 -O3)
+target_compile_options(DRRgeberatir PUBLIC -std=c++17 -O3)
 
 target_include_directories(DRRgenerator PRIVATE ${OpenCV_INCLUDE_DIRS})
 target_include_directories(DRRgenerator PRIVATE ${EIGEN3_INCLUDE_DIR})
